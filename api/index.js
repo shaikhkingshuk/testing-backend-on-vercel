@@ -7,7 +7,6 @@ app.use(express.json());
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const PORT = process.env.PORT || 3000;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jehcuf6.mongodb.net/?appName=Cluster0`;
 
 const admin = require("firebase-admin");
@@ -54,11 +53,7 @@ const varifyFireBaseToken = async (req, res, next) => {
 
 async function run() {
   try {
-    let isConnected = false;
-    if (!isConnected) {
-      await client.connect();
-      isConnected = true;
-    }
+    await client.connect();
 
     const db = client.db(process.env.DB_NAME);
     const userCollection = db.collection("users");
